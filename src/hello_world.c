@@ -19,15 +19,7 @@ enum
 };
 
 static void select_click_handler(ClickRecognizerRef recognizer, void *context) {
-  DictionaryIterator *iter;
-  app_message_outbox_begin(&iter);
-  
-  Tuplet value = TupletInteger(1, 42);
-  dict_write_tuplet(iter, &value);
-  
-  app_message_outbox_send();
-
-  text_layer_set_text(text_layer, "Sent Selected");
+  text_layer_set_text(text_layer, "Select button");
 }
 
 static void up_click_handler(ClickRecognizerRef recognizer, void *context) {
@@ -98,7 +90,14 @@ static void timer_callback(void *data) {
   {
     
     text_layer_set_text(text_layer, "Jerked!");
-  
+    
+    DictionaryIterator *iter;
+    app_message_outbox_begin(&iter);
+    
+    Tuplet value = TupletInteger(1, 42);
+    dict_write_tuplet(iter, &value);
+    
+    app_message_outbox_send();  
   }
   else
   {
@@ -112,6 +111,7 @@ static void timer_callback(void *data) {
   prevZ = accel.z;
 
   timer = app_timer_register(ACCEL_STEP_MS, timer_callback, NULL);
+
 }
 
 static void init(void) {
