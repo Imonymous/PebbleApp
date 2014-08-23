@@ -58,8 +58,6 @@ void SharedLibraryInterface::setAudioEffectBypassState(int sampleID, int effectP
     
 }
 
-
-
 void SharedLibraryInterface::playRecordButtonClicked(int playRecordStatus)
 {
     audioEngine->playRecordStop(playRecordStatus);
