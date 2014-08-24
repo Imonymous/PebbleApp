@@ -15,10 +15,18 @@ AudioFilePlayback::AudioFilePlayback()  :   thread ("audio file playback")
 {
     formatManager.registerBasicFormats();
     
-    thread.startThread (3);
+    resamplingAudioSource   = new ResamplingAudioSource(&transportSource, true);
+    
+    mixerSource.addInputSource (resamplingAudioSource, false);
+	
+	masterResamplingSource = new ResamplingAudioSource(&mixerSource, true); //now resample the mixer output
+	
+	// ..and connect the mixer to our source player.
+	audioSourcePlayer.setSource (masterResamplingSource);
     
     sharedAudioDeviceManager->addAudioCallback (&audioSourcePlayer);
-    audioSourcePlayer.setSource (&transportSource);
+    
+    thread.startThread (3);
 }
 
 
@@ -66,5 +74,14 @@ void AudioFilePlayback::loadFileIntoTransport(String filePath)
                                    32768,                   // tells it to buffer this many samples ahead
                                    &thread,                 // this is the background thread to use for reading-ahead
                                    reader->sampleRate);     // allows for sample rate correction
+        
+        currentAudioFileSource->setLooping(true);
+        
+        transportSource.setGain(0.75);
     }
+}
+
+void AudioFilePlayback::setPlayBackRate(double ratio)
+{
+    resamplingAudioSource->setResamplingRatio(ratio);
 }

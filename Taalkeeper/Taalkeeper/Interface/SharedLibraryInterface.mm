@@ -40,7 +40,6 @@ void SharedLibraryInterface::setParameter(int sampleID, int effectID, int parame
     
 }
 
-
 void SharedLibraryInterface::addAudioEffect(int sampleID, int effectPosition, int effectID)
 {
     audioEngine->addAudioEffect(sampleID, effectPosition, effectID);
@@ -57,8 +56,6 @@ void SharedLibraryInterface::setAudioEffectBypassState(int sampleID, int effectP
 {
     
 }
-
-
 
 void SharedLibraryInterface::playRecordButtonClicked(int playRecordStatus)
 {

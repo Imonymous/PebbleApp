@@ -18,31 +18,26 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
-
-    self.pollTimer = [NSTimer scheduledTimerWithTimeInterval:1.0
+    
+    audioEngine = new AudioEngine();
+    
+    self.pollTimer = [NSTimer scheduledTimerWithTimeInterval:0.8
                                      target:self
                                    selector:@selector(checkForJerk:)
                                    userInfo:nil
                                     repeats:NO];
     
-    self.tempo = 150;
-    self.tempoSlider.minimumValue = 0.0;
-    self.tempoSlider.maximumValue = 300.0;
+    self.tempo = 50;
+    self.tempoSlider.minimumValue = 50.0;
+    self.tempoSlider.maximumValue = 200.0;
     
-    NSString *taalFilePath = [[NSBundle mainBundle]
-                            pathForResource:@"Kaharwa-Beats-2" ofType:@"wav"];
-    NSURL *taalFileURL = [NSURL fileURLWithPath:taalFilePath];
+//    NSString *taalFilePath = [[NSBundle mainBundle]
+//                            pathForResource:@"Kaharwa-Beats-2" ofType:@"wav"];
+//    NSURL *taalFileURL = [NSURL fileURLWithPath:taalFilePath];
+//    
+//    NSError *err;
     
-    NSError *err;
-    
-    self.player = [[AVAudioPlayer alloc] initWithContentsOfURL:taalFileURL error:&err];
-    self.player.volume = 0.4f;
-    self.player.enableRate=YES;
-    [self.player prepareToPlay];
-    [self.player setNumberOfLoops:0];
-    [self.player setEnableRate:YES];
-    self.player.rate=1.0f;
-    [self.player play];
+    audioEngine->play();
     
 }
 
@@ -57,7 +52,7 @@
         
         self.tempoSlider.value = self.tempo;
         
-        self.player.rate=self.tempo/150;
+        audioEngine->changePlaybackRate(self.tempo/100.0);
         
         return YES;
     }];
@@ -95,9 +90,9 @@
 
 - (void)dealloc
 {
-    [self.player release];
-    
     [super dealloc];
+    
+    delete audioEngine;
 }
 
 @end

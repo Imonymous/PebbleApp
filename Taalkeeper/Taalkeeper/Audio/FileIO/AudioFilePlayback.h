@@ -26,7 +26,7 @@ public:
     void stopPlaying();
     
     void loadFileIntoTransport(String filePath);
-    
+    void setPlayBackRate(double ratio);
     
 private:
     
@@ -38,6 +38,10 @@ private:
     AudioSourcePlayer audioSourcePlayer;
     AudioTransportSource transportSource;
     ScopedPointer<AudioFormatReaderSource> currentAudioFileSource;
+    
+    MixerAudioSource mixerSource;
+    ScopedPointer<ResamplingAudioSource> resamplingAudioSource;
+    ScopedPointer<ResamplingAudioSource> masterResamplingSource;
     
 };
 

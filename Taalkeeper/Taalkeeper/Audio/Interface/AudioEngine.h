@@ -31,6 +31,8 @@ public:
     void setAudioEffectBypassState(int sampleID, int effectPosition, bool bypassState);
     
     void playRecordStop(int value);
+    void changePlaybackRate(double ratio);
+    void play();
     
 private:
     

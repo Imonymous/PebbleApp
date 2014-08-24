@@ -22,7 +22,7 @@ AudioEngine::AudioEngine()
     audioFileRecorder   =   new AudioFileRecord();
     audioFilePlayer     =   new AudioFilePlayback();
     
-    currentFilePath = File::getSpecialLocation(File::userDocumentsDirectory).getFullPathName() + "/Recording.wav";
+    currentFilePath = File::getSpecialLocation(File::userDocumentsDirectory).getFullPathName() + "/Kaharwa-Beats-1.wav";
 }
 
 
@@ -97,6 +97,10 @@ bool AudioEngine::isAudioRunning()
     return m_bAudioThreadRunning;
 }
 
+void AudioEngine::changePlaybackRate(double ratio)
+{
+    audioFilePlayer->setPlayBackRate(ratio);
+}
 
 void AudioEngine::playRecordStop(int value)
 {
@@ -120,4 +124,10 @@ void AudioEngine::playRecordStop(int value)
         audioFilePlayer->loadFileIntoTransport(currentFilePath);
         audioFilePlayer->startPlaying();
     }
+}
+
+void AudioEngine::play()
+{
+    audioFilePlayer->loadFileIntoTransport(currentFilePath);
+    audioFilePlayer->startPlaying();
 }
